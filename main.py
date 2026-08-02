@@ -21,14 +21,14 @@ def create_master_password():
            continue
 
        if password == confirm_password:
-            password = password.encode()
-            password_hash = hashlib.sha256(password).hexdigest()
+
+            password_hash = hashlib.sha256(password.encode()).hexdigest()
 
             with open("master_password.json", "w") as f:
                 data = {
                     "master_password": password_hash
                 }
-                json.dump(data, f)
+                json.dump(data, f, indent=4)
 
             print(f'Master password created successfully. Please log in.')
             break
@@ -38,8 +38,18 @@ def create_master_password():
             continue
 
 def login():
-    with open("master_password.json", "r") as f:
-        data = json.load(f)
+    try:
+        with open("master_password.json", "r") as f:
+            data = json.load(f)
+
+    except FileNotFoundError:
+        print("Master password file not found.")
+        return False
+
+    except json.JSONDecodeError:
+        print("Master password file is corrupted.")
+        return False
+
     stored_password = data["master_password"]
 
     attempts = 3
@@ -48,11 +58,12 @@ def login():
 
         password = getpass("Enter master password: ").strip()
         if not password:
+            attempts -= 1
             print("Please enter a master password")
+            print("Attempts left:", attempts)
             continue
 
-        password = password.encode()
-        password_hash = hashlib.sha256(password).hexdigest()
+        password_hash = hashlib.sha256(password.encode()).hexdigest()
 
         if stored_password == password_hash:
             print("Master password is correct.")
@@ -71,9 +82,11 @@ def load_passwords():
             return json.load(f)
 
     except FileNotFoundError:
+        print("Master password file not found.")
         return []
 
     except json.JSONDecodeError:
+        print("Master password file is corrupted.")
         return []
 
 def save_passwords(passwords):
