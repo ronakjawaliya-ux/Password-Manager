@@ -1,15 +1,16 @@
 # 🔐 Password Manager (Python)
 
-A simple command-line Password Manager built using Python. This project allows users to securely manage their website credentials by creating a master password for authentication and performing CRUD (Create, Read, Update, Delete) operations on stored passwords. All data is stored locally using JSON files.
+A simple command-line Password Manager built using Python. This application allows users to securely manage their website credentials by creating a master password for authentication and performing CRUD (Create, Read, Update, Delete) operations on stored passwords. Password data is stored locally using JSON files, while the master password is secured using SHA-256 hashing.
 
 ---
 
 ## 📌 Features
 
+- Create Master Password
 - Master Password Authentication
 - Secure Login (3 Attempts)
 - Add Password
-- View All Saved Passwords
+- View Saved Passwords
 - Search Password by ID
 - Update Existing Password
 - Delete Password
@@ -23,6 +24,7 @@ A simple command-line Password Manager built using Python. This project allows u
 ## 🛠️ Technologies Used
 
 - Python 3
+- PyCharm IDE
 - JSON
 - Hashlib (SHA-256)
 - File Handling
@@ -30,6 +32,14 @@ A simple command-line Password Manager built using Python. This project allows u
 - Loops
 - Conditional Statements
 - Exception Handling
+
+---
+
+## 💻 Development Environment
+
+- **IDE:** PyCharm
+- **Language:** Python 3
+- **Operating System:** Windows
 
 ---
 
@@ -51,19 +61,19 @@ Password-Manager-Python/
 
 ## 🚀 How to Run
 
-1. Clone the repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/ronakjawaliya-ux/Password-Manager-Python.git
 ```
 
-2. Navigate to the project directory
+### 2. Navigate to the project directory
 
 ```bash
 cd Password-Manager-Python
 ```
 
-3. Run the program
+### 3. Run the application
 
 ```bash
 python main.py
@@ -73,7 +83,7 @@ python main.py
 
 ## 📸 Screenshots
 
-Screenshots of the project are available in the **screenshots** folder.
+Project screenshots are available inside the **screenshots** folder.
 
 ---
 
@@ -84,8 +94,8 @@ Screenshots of the project are available in the **screenshots** folder.
 - File Handling
 - JSON Handling
 - SHA-256 Password Hashing
-- Exception Handling
 - Input Validation
+- Exception Handling
 - Loops
 - Conditional Statements
 
