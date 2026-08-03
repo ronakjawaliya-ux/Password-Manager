@@ -163,16 +163,16 @@ def add_password():
 
         break
 
-    password_entry = {
+    password_record = {
         "id": password_id,
         "website": website,
         "username": username,
         "password": password
     }
 
-    passwords.append(password_entry)
+    passwords.append(password_record)
     save_passwords(passwords)
-    print("Password added successfully.")
+    print("Password saved successfully.")
 
 def view_passwords():
     passwords = load_passwords()
@@ -183,12 +183,12 @@ def view_passwords():
 
     print("\n======= SAVED PASSWORDS =======\n")
 
-    for password_entry in passwords:
+    for password_record in passwords:
         print("============================================")
-        print(f"Password ID   :{password_entry['id']}")
-        print(f"Website       :{password_entry['website']}")
-        print(f"Username      :{password_entry['username']}")
-        print(f"Password      :{password_entry['password']}")
+        print(f"Password ID   :{password_record['id']}")
+        print(f"Website       :{password_record['website']}")
+        print(f"Username      :{password_record['username']}")
+        print(f"Password      :{password_record['password']}")
         print("============================================\n")
 
 def search_password():
@@ -198,34 +198,146 @@ def search_password():
         print("No passwords found.")
         return
 
-    while True:
-        try:
-            password_id = int(input("Enter ID: "))
 
-        except ValueError:
-            print("ID must be an integer.")
-            return
+    try:
+        password_id = int(input("Enter ID: "))
 
-        if password_id <= 0:
-            print("ID must be +ve integer.")
-            return
+    except ValueError:
+        print("ID must be an integer.")
+        return
 
-        found = False
+    if password_id <= 0:
+        print("ID must be +ve integer.")
+        return
 
-        for existing_password in passwords:
-            if existing_password['id'] == password_id:
-                print('\nSaved Passwords Details\n')
-                print("============================================")
-                print(f"Password ID   :{existing_password['id']}")
-                print(f"Website       :{existing_password['website']}")
-                print(f"Username      :{existing_password['username']}")
-                print(f"Password      :{existing_password['password']}")
-                print("============================================\n")
-                found = True
+    found = False
+
+    for existing_password in passwords:
+        if existing_password['id'] == password_id:
+            print('\nSaved Passwords Details\n')
+            print("============================================")
+            print(f"Password ID   :{existing_password['id']}")
+            print(f"Website       :{existing_password['website']}")
+            print(f"Username      :{existing_password['username']}")
+            print(f"Password      :{existing_password['password']}")
+            print("============================================\n")
+            found = True
+            break
+
+
+    if not found:
+        print('\nPassword not found\n')
+        return
+
+def update_password():
+    passwords = load_passwords()
+
+    if not passwords:
+        print("No passwords found.")
+        return
+
+
+    try:
+        password_id = int(input("Enter ID: "))
+
+    except ValueError:
+        print("ID must be an integer.")
+        return
+
+    if password_id <= 0:
+        print("ID must be +ve integer.")
+        return
+
+    found = False
+
+    for existing_password in passwords:
+        if existing_password['id'] == password_id:
+            print("============================================")
+            print(f"Password ID   :{existing_password['id']}")
+            print(f"Website       :{existing_password['website']}")
+            print(f"Username      :{existing_password['username']}")
+            print(f"Password      :{existing_password['password']}")
+            print("============================================\n")
+            found = True
+
+            while True:
+                new_website = input("Enter website: ").strip()
+
+                if not new_website:
+                    print("Please enter a website.")
+                    continue
+
                 break
 
-        if not found:
-            print('\nPassword not found\n')
+            while True:
+                new_username = input("Enter username: ").strip()
+
+                if not new_username:
+                    print("Please enter a username.")
+                    continue
+
+                break
+
+            while True:
+                new_password = input("Enter account password: ").strip()
+
+                if not new_password:
+                    print("Please enter a password.")
+                    continue
+
+                break
+
+            existing_password["website"] = new_website
+            existing_password["username"] = new_username
+            existing_password["password"] = new_password
+            save_passwords(passwords)
+            print("Password updated successfully.")
+            return
+
+    if not found:
+        print('\nPassword not found\n')
+
+def delete_password():
+
+    passwords = load_passwords()
+
+    if not passwords:
+        print("No passwords found.")
+        return
+
+    try:
+        delete_password_id = int(input("Enter ID: "))
+    except ValueError:
+        print("ID must be an integer.")
+        return
+
+    if delete_password_id <= 0:
+        print("ID must be +ve integer.")
+        return
+
+    found = False
+    for existing_password in passwords:
+        if existing_password['id'] == delete_password_id:
+            print("============================================")
+            print(f"Password ID   :{existing_password['id']}")
+            print(f"Website       :{existing_password['website']}")
+            print(f"Username      :{existing_password['username']}")
+            print(f"Password      :{existing_password['password']}")
+            print("============================================\n")
+            confirm = input("Are you sure you want to delete this password? (Y/N): ").strip().upper()
+
+            if confirm != "Y":
+                print("Deletion cancelled.")
+                return
+
+            passwords.remove(existing_password)
+            print(f'Password deleted successfully!')
+            save_passwords(passwords)
+            found = True
+            break
+
+    if not found:
+        print("Password not found.")
 
 
 def main():
@@ -238,43 +350,42 @@ def main():
         print('5. Delete Password')
         print('6. Exit')
 
-        # Validating from ValueError
+
         try:
             choice = int(input('Enter your choice: '))
+
         except ValueError:
             print('Invalid choice: it should be an integer')
             continue
 
-        # Validating the Choice option
+
         if choice < 1 or choice > 6:
             print("Choice must be between 1 and 6")
             continue
 
         if choice == 1:
-            print("Add Password selected")
             add_password()
 
 
         elif choice == 2:
-            print("View Passwords selected")
             view_passwords()
 
 
         elif choice == 3:
-            print("Search Password selected")
             search_password()
 
+
         elif choice == 4:
-            print("Update Password selected")
+            update_password()
+
 
         elif choice == 5:
-            print("Delete Password selected")
+            delete_password()
+
 
         elif choice == 6:
-            print("Exiting Password Manager...")
+            print("Thank you for using Password Manager!")
             break
-
-
 
 
 if not master_password_exists():
@@ -282,6 +393,7 @@ if not master_password_exists():
 
 
 if login():
+    print("Login Successful!")
     print("Loading Password Manager...")
     main()
 else:
