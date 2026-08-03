@@ -155,7 +155,7 @@ def add_password():
         break
 
     while True:
-        password = input("Enter master password: ").strip()
+        password = input("Enter account password: ").strip()
 
         if not password:
             print("Please enter a password.")
@@ -174,6 +174,107 @@ def add_password():
     save_passwords(passwords)
     print("Password added successfully.")
 
+def view_passwords():
+    passwords = load_passwords()
+
+    if not passwords:
+        print("No passwords found.")
+        return
+
+    print("\n======= SAVED PASSWORDS =======\n")
+
+    for password_entry in passwords:
+        print("============================================")
+        print(f"Password ID   :{password_entry['id']}")
+        print(f"Website       :{password_entry['website']}")
+        print(f"Username      :{password_entry['username']}")
+        print(f"Password      :{password_entry['password']}")
+        print("============================================\n")
+
+def search_password():
+    passwords = load_passwords()
+
+    if not passwords:
+        print("No passwords found.")
+        return
+
+    while True:
+        try:
+            password_id = int(input("Enter ID: "))
+
+        except ValueError:
+            print("ID must be an integer.")
+            return
+
+        if password_id <= 0:
+            print("ID must be +ve integer.")
+            return
+
+        found = False
+
+        for existing_password in passwords:
+            if existing_password['id'] == password_id:
+                print('\nSaved Passwords Details\n')
+                print("============================================")
+                print(f"Password ID   :{existing_password['id']}")
+                print(f"Website       :{existing_password['website']}")
+                print(f"Username      :{existing_password['username']}")
+                print(f"Password      :{existing_password['password']}")
+                print("============================================\n")
+                found = True
+                break
+
+        if not found:
+            print('\nPassword not found\n')
+
+
+def main():
+    while True:
+        print('\n======== PASSWORD MANAGER ========\n')
+        print('1. Add Password')
+        print('2. View Passwords')
+        print('3. Search Password')
+        print('4. Update Password')
+        print('5. Delete Password')
+        print('6. Exit')
+
+        # Validating from ValueError
+        try:
+            choice = int(input('Enter your choice: '))
+        except ValueError:
+            print('Invalid choice: it should be an integer')
+            continue
+
+        # Validating the Choice option
+        if choice < 1 or choice > 6:
+            print("Choice must be between 1 and 6")
+            continue
+
+        if choice == 1:
+            print("Add Password selected")
+            add_password()
+
+
+        elif choice == 2:
+            print("View Passwords selected")
+            view_passwords()
+
+
+        elif choice == 3:
+            print("Search Password selected")
+            search_password()
+
+        elif choice == 4:
+            print("Update Password selected")
+
+        elif choice == 5:
+            print("Delete Password selected")
+
+        elif choice == 6:
+            print("Exiting Password Manager...")
+            break
+
+
 
 
 if not master_password_exists():
@@ -182,6 +283,7 @@ if not master_password_exists():
 
 if login():
     print("Loading Password Manager...")
+    main()
 else:
     print("Too many failed login attempts.")
     exit(0)
